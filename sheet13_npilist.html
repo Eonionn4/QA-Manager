@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet13 - NPI List</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="js/sheet13_npilist.js" defer></script>
+</head>
+<body>
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 Back to QA System</button>
+    <button class="back-button" onclick="window.location.href='sheet15_devicesy.html'">📆 My Action Item</button>
+    <button class="back-button" onclick="window.location.href='sheet13_npilist.html'">🆕 NPI Management System</button>
+    <button class="back-button" onclick="window.location.href='sheet1_masterlist.html'">📄 Reliability Management System</button>
+    <button class="back-button" onclick="window.location.href='sheet11_falist.html'">🛠️ FA Management System</button>
+    <button class="back-button" onclick="window.location.href='sheet8_pcnmasterlist.html'">📰 PCN Management System</button>
+    <button class="back-button" onclick="window.location.href='sheet7_csr.html'">📝 CSR Management System</button>
+    <button class="back-button" onclick="window.location.href='sheet9_devicelist.html'">📋 Device List (AI)</button>
+  </div>
+
+  <nav class="navbar">
+    <a href="sheet14_npimkr.html" class="active">🛠️ Go to NPI Maker</a>
+  </nav>
+
+  <h1>📋 NPI List</h1>
+
+  <div style="max-width: 400px; margin: 10px auto;">
+    <input type="text" id="searchInput" placeholder="🔍 Search by NPI Name, Device, Customer..." style="width: 100%; padding: 8px;" />
+  </div>
+
+  <div style="max-width: 1600px; margin: 20px auto;">
+    <table id="npiTable" class="tcard-list" style="width: 100%; table-layout: auto;">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Package Name</th>
+          <th>Nickname</th>
+          <th>PKG Size</th>
+          <th>Lead #</th>
+          <th>Package Type</th>
+          <th>Substrate Vendor</th>
+          <th>EMC Type</th>
+          <th>Actions</th>
+        </tr>
+      </thead>      
+      <tbody id="npiTableBody">
+        <!-- Rows will be rendered here -->
+      </tbody>
+    </table>
+  </div>  
+</body>
+</html>

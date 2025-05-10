@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet7 - CSR Management (with Revised History)</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <!-- XLSX Parser -->
+  <script src="js/xlsx.full.min.js"></script>
+
+  <style>
+    body { padding: 20px; font-family: Arial, sans-serif; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background-color: #f2f2f2; }
+    /* Button styles */
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .primary-btn {
+      background-color: #0074d9;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .primary-btn:hover {
+      background-color: #005bac;
+      transform: translateY(-2px);
+    }
+    .secondary-btn {
+      background-color: #ffffff;
+      color: #0074d9;
+      border: 2px solid #0074d9;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .secondary-btn:hover {
+      background-color: #0074d9;
+      color: white;
+      transform: translateY(-2px);
+    }
+    .danger-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .danger-btn:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+    }
+    /* Import section */
+    .import-area {
+      margin-top: 30px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .import-label {
+      font-weight: bold;
+      color: #005bac;
+    }
+    .import-input {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #cccccc;
+    }
+    /* Search input */
+    .search-input {
+      width: 300px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fafafa;
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: box-shadow 0.3s;
+    }
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 0 6px #0074d9;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📝 CSR Management System</h1>
+
+  <div class="button-group">
+    <button id="goToSheet0Button" class="primary-btn">🏠 Back to QA System</button>
+    <button id="exportCSRListButton" class="secondary-btn">📥 Export CSR List</button>
+    <button id="deleteAllButton" class="danger-btn">🗑️ Delete All CSR List</button>
+  </div>
+
+  <div class="import-area">
+    <label for="excelInput" class="import-label">📂 Import FT Report Excel:</label>
+    <input type="file" id="excelInput" accept=".xlsx, .xls" class="import-input">
+    <button id="refreshFileButton" class="secondary-btn">🔄 Refresh</button>
+    <span id="updateDateDisplay" style="margin-left: 10px; font-weight: bold; color: green;"></span>
+    <button id="revisedHistoryButton" class="secondary-btn" style="display:none;">🗂️ View Revised History</button>
+  </div>
+
+  <br>
+
+  <input type="text" id="searchInput" placeholder="🔍 Search SYSTEM# or keyword..." class="search-input">
+
+  <div id="tableContainer"></div>
+  <div id="revisedHistoryContainer" style="margin-top:40px;"></div>
+
+  <script src="js/sheet7_csr.js"></script>
+
+</body>
+
+<!-- Modal for Revised History -->
+<div id="historyModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:1px solid #ccc; overflow:auto; padding:20px; z-index:1000;">
+  <button onclick="closeHistoryModal()" style="float:right;">Close</button>
+  <h2>Revised History</h2>
+  <div id="historyModalContent" style="margin-top:20px;"></div>
+</div>
+
+<script>
+  document.getElementById('exportCSRListButton').addEventListener('click', () => {
+    exportCSRListToExcel();
+  });
+</script>

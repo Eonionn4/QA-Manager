@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet9 - Device List (AI)</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="js/xlsx.full.min.js"></script>
+
+  <style>
+    body { padding: 20px; font-family: Arial, sans-serif; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background-color: #f2f2f2; }
+
+    /* Button Group Style */
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .primary-btn {
+      background-color: #0074d9;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .primary-btn:hover {
+      background-color: #005bac;
+      transform: translateY(-2px);
+    }
+    .secondary-btn {
+      background-color: #ffffff;
+      color: #0074d9;
+      border: 2px solid #0074d9;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .secondary-btn:hover {
+      background-color: #0074d9;
+      color: white;
+      transform: translateY(-2px);
+    }
+    .danger-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .danger-btn:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+    }
+
+    /* Import Section */
+    .import-area {
+      margin-top: 30px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Search Inputs */
+    .search-input {
+      width: 300px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fafafa;
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: box-shadow 0.3s;
+    }
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 0 6px #0074d9;
+    }
+
+    /* Table Action Buttons */
+    .action-btn {
+      background-color: #f8f9fa;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-right: 5px;
+      transition: background-color 0.3s;
+    }
+    .action-btn:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📄 Device List (AI) Management</h1>
+
+  <div class="button-group">
+    <button id="goToSheet0Button" class="primary-btn">🏠 Back to QA System</button>
+    <button id="exportDeviceListButton" class="secondary-btn">📥 Export Device List</button>
+    <button id="deleteAllButton" class="danger-btn">🗑️ Delete All Device List</button>
+  </div>
+
+  <div class="import-area">
+    <label for="excelInput"><strong>📂 Import Device List Excel:</strong></label>
+    <input type="file" id="excelInput" accept=".xlsx, .xls" class="import-input">
+    <button id="refreshFileButton" class="secondary-btn">🔄 Refresh</button>
+    <span id="updateDateDisplay" style="margin-left: 10px; font-weight: bold; color: green;"></span>
+  </div>
+
+  <br>
+
+  <!-- 🔥 Search Boxes -->
+  <input type="text" id="searchInput" placeholder="🔍 Search AI_NO or keyword..." class="search-input">
+  <input type="text" id="searchInput2" placeholder="🔍 Search CUST / PKG / Body..." class="search-input" style="margin-left: 10px;">
+
+  <div id="tableContainer"></div>
+  <div id="revisedHistoryContainer" style="margin-top: 40px;"></div>
+
+  <!-- Modal for Revised History View -->
+  <div id="historyModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:1px solid #ccc; overflow:auto; padding:20px; z-index:1000;">
+    <button onclick="closeHistoryModal()" class="secondary-btn" style="float:right;">Close</button>
+    <h2>Revised History</h2>
+    <div id="historyModalContent" style="margin-top:20px;"></div>
+  </div>
+
+  <script src="js/sheet9_devicelist.js"></script>
+
+  <script>
+    document.getElementById('goToSheet0Button').addEventListener('click', () => {
+      window.location.href = "sheet0_qasystem.html";
+    });
+
+    document.getElementById('exportDeviceListButton').addEventListener('click', () => {
+      exportDeviceListToExcel();
+    });
+  </script>
+
+</body>
+</html>

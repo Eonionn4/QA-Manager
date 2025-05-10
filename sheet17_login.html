@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sheet17 - Login</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="js/sheet17_login.js"></script>
+
+  <style>
+    .centered-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .centered-form .form-group,
+    .modal-form .form-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .centered-form .form-group label,
+    .modal-form .form-group label {
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #005bac;
+    }
+
+    .centered-form .form-group input,
+    .modal-form .form-group input {
+      width: 250px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">🔐 Login</h1>
+
+    <form class="centered-form" id="loginForm">
+      <div class="form-group">
+        <label for="loginName">Name</label>
+        <input type="text" id="loginName" placeholder="Enter your name" required />
+      </div>
+      <div class="form-group">
+        <label for="loginID">ID</label>
+        <input type="text" id="loginID" placeholder="Enter your ID" required />
+      </div>
+      <div class="form-group">
+        <label for="loginPW">Password</label>
+        <input type="password" id="loginPW" placeholder="Enter password" required />
+      </div>
+      <div class="form-group">
+        <label for="loginCustomer">Customer</label>
+        <input type="text" id="loginCustomer" placeholder="e.g. MTK or MTK,CHH or All" />
+      </div>
+      <div class="form-group" style="flex-direction: row; align-items: center; justify-content: center;">
+        <input type="checkbox" id="rememberLogin" style="margin-right: 8px;" />
+        <label for="rememberLogin" style="margin: 0;">Save Login Information</label>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" class="primary-btn">Login</button>
+        <button type="button" id="newIDBtn" class="secondary-btn">New ID</button>
+        <button type="button" id="changePWBtn" class="danger-btn">Change Password</button>
+        <button type="button" class="danger-btn" onclick="openDeleteModal()">Delete ID</button>
+      </div>
+    </form>
+
+    <p id="loginStatus" style="text-align:center; color:#c00; font-weight:bold;"></p>
+  </div>
+
+  <!-- 🆕 New ID Modal -->
+  <div id="newIdModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#fff; padding:30px; border-radius:12px; width:350px; position:relative;" class="modal-form">
+      <h3 style="text-align:center; color:#005bac;">🆕 Create New ID</h3>
+      <div class="form-group"><label>Name</label><input type="text" id="newName" /></div>
+      <div class="form-group"><label>ID</label><input type="text" id="newID" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="newPW" /></div>
+      <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmPW" /></div>
+      <div class="form-buttons">
+        <button class="primary-btn" onclick="createNewID()">Create!</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      </div>
+      <p id="createStatus" style="color:#d00; font-size:13px; text-align:center; margin-top:10px;"></p>
+    </div>
+  </div>
+
+  <!-- 🔐 Change Password Modal -->
+  <div id="changePWModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#fff; padding:30px; border-radius:12px; width:350px; position:relative;" class="modal-form">
+      <h3 style="text-align:center; color:#005bac;">🔐 Change Password</h3>
+      <div class="form-group"><label>Name</label><input type="text" id="changeName" /></div>
+      <div class="form-group"><label>ID</label><input type="text" id="changeID" /></div>
+      <div class="form-group"><label>Change To</label><input type="password" id="newPW1" /></div>
+      <div class="form-group"><label>Confirm PW</label><input type="password" id="newPW2" /></div>
+      <div class="form-buttons">
+        <button class="primary-btn" onclick="changePassword()">Change!</button>
+        <button class="cancel-btn" onclick="closePWModal()">Cancel</button>
+      </div>
+      <p id="pwStatus" style="color:#d00; font-size:13px; text-align:center; margin-top:10px;"></p>
+    </div>
+  </div>
+
+  <!-- 🗑️ Delete ID Modal -->
+  <div id="deleteModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#fff; padding:30px; border-radius:12px; width:350px; position:relative;" class="modal-form">
+      <h3 style="text-align:center; color:#c00;">🗑️ Delete ID</h3>
+      <div class="form-group"><label>Name</label><input type="text" id="deleteName" /></div>
+      <div class="form-group"><label>ID</label><input type="text" id="deleteID" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="deletePW" /></div>
+      <div class="form-buttons">
+        <button class="danger-btn" onclick="deleteAccount()">Delete</button>
+        <button class="cancel-btn" onclick="closeDeleteModal()">Cancel</button>
+      </div>
+      <p id="deleteStatus" style="color:#d00; font-size:13px; text-align:center; margin-top:10px;"></p>
+    </div>
+  </div>
+
+  <!-- 🔐 Admin Password Prompt -->
+  <div id="adminPwModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#fff; padding:30px; border-radius:12px; width:300px; text-align:center;">
+      <h3>🔐 Enter Admin Password</h3>
+      <input type="password" id="adminPasswordInput" style="width:100%; padding:10px; margin:10px 0;" />
+      <div class="form-buttons">
+        <button onclick="checkAdminPassword()" class="primary-btn">OK</button>
+        <button onclick="document.getElementById('adminPwModal').style.display='none'" class="cancel-btn">Cancel</button>
+      </div>
+      <p id="adminPwStatus" style="color:red; margin-top:10px;"></p>
+    </div>
+  </div>
+
+  <!-- 👥 Admin User Table -->
+  <div id="adminUserPanel" style="display:none; padding:20px;">
+    <h3>👥 User Management</h3>
+    <table border="1" style="width:100%; border-collapse:collapse;">
+      <thead><tr><th>Name</th><th>ID</th><th>Password</th><th>Actions</th></tr></thead>
+      <tbody id="userTableBody"></tbody>
+    </table>
+  
+    <!-- 🔑 Customer Keyword Mapping -->
+    <div style="margin-top:40px;">
+      <h3>🔑 Customer Keyword Mapping</h3>
+      <form id="keywordForm" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+        <label>Main Customer: 
+          <input type="text" id="mainCustomer" placeholder="e.g. MTK" required 
+                style="padding:5px; width:150px;" />
+        </label>
+        <label>Related Keywords (comma-separated): 
+          <input type="text" id="relatedKeywords" placeholder="e.g. MediaTek, MT7987" required 
+                style="padding:5px; width:300px;" />
+        </label>
+        <button type="submit" class="primary-btn">💾 Save</button>
+      </form>
+  
+      <table id="keywordTable" border="1" style="width:100%; margin-top:20px; border-collapse:collapse;">
+        <thead>
+          <tr><th>Main Customer</th><th>Related Keywords</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+</body>
+</html>

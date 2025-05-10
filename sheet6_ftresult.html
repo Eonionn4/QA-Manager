@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FT Result</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="js/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 Back to QA System</button>
+  </div>
+
+  <nav class="navbar">
+    <a href="sheet1_masterlist.html">Test Master List</a>
+    <a href="sheet2_schedulemanager.html">Schedule Manager</a>
+    <a href="sheet3_testmaker.html">Test List Maker</a>
+    <a href="sheet6_ftresult.html" class="active">FT Result</a>
+  </nav>
+
+  <div class="page-header">
+    <h2>🚀 FT Result Entry</h2>
+  </div>
+  
+  <div class="form-grid form-aligned">
+    <div class="form-group">
+      <label for="reliabilityCriteria">Reliability Criteria</label>
+      <input type="text" id="reliabilityCriteria" placeholder="Enter Reliability Criteria" />
+    </div>
+  
+    <div class="form-group">
+      <label for="binQty">Bin Quantity</label>
+      <input type="number" id="binQty" placeholder="Enter Bin Quantity" min="1" />
+    </div>
+  
+    <div class="form-buttons" style="grid-column: span 2;">
+      <button id="saveButton" class="cool-save-btn">✨ Save FT Result</button>
+      <button id="exportButton" class="export-btn">📊 Export FT Report</button>
+    </div>
+  </div>
+  
+  <div class="import-container form-grid form-aligned" style="margin-top: 40px;">
+    <div class="form-group" style="grid-column: span 2;">
+      <label for="importFile">Import FT Report Excel</label>
+      <input type="file" id="importFile" accept=".xlsx" />
+    </div>
+    <div class="form-buttons" style="grid-column: span 2;">
+      <button id="importButton" class="import-btn">📂 Import Excel</button>
+    </div>
+  </div>
+  
+  <div id="ftTableArea" style="margin-top: 30px;">
+    <h3 class="saved-schedules-title">📋 FT Result Table</h3>
+    <div id="ftTableList"></div>
+  </div>
+
+  <script src="js/sheet6_ftresult.js"></script>
+</body>
+</html>
