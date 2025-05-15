@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📦 My Action Item</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:,">
+
+  <!-- ✅ Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <!-- 📅 FullCalendar CSS & JS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+
+  <!-- ✅ Your JS must load LAST -->
+  <script src="js/sheet15_devicesy.js" defer></script>
+</head>
+<body>
+
+  <!-- 📅 Floating Scroll-to-Calendar Button -->
+  <button id="scrollToCalendarBtn" onclick="scrollToCalendar()" title="Go to Calendar">📅</button>
+
+  <!-- 🔷 Top Navigation -->
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 QA</button>
+    <button class="back-button" onclick="window.location.href='sheet15_devicesy.html'">📆 AR</button>
+    <button class="back-button" onclick="window.location.href='sheet13_npilist.html'">🆕 NPI</button>
+    <button class="back-button" onclick="window.location.href='sheet1_masterlist.html'">📄 Reliability</button>
+    <button class="back-button" onclick="window.location.href='sheet11_falist.html'">🛠️ FA</button>
+    <button class="back-button" onclick="window.location.href='sheet8_pcnmasterlist.html'">📰 PCN</button>
+    <button class="back-button" onclick="window.location.href='sheet7_csr.html'">📝 CSR</button>
+    <button class="back-button" onclick="window.location.href='sheet9_devicelist.html'">📋AI</button>
+    <button class="back-button" onclick="window.location.href='sheet4_jmpraw.html'">📈 JMP</button>
+  </div>
+
+  <div class="page-title">📆 My Action Item</div>
+
+  <!-- 🔽 Manual Entry Form -->
+  <div class="reliability-form form-aligned">
+    <div class="form-group"><label>Customer</label><input type="text" id="customer"></div>
+    <div class="form-group"><label>Package Name</label><input type="text" id="packageName"></div>
+    <div class="form-group"><label>Nickname</label><input type="text" id="nickname"></div>
+    <div class="form-group"><label>PKG Size</label><input type="text" id="pkgSize"></div>
+    <div class="form-group"><label>Lead Number</label><input type="text" id="leadNumber"></div>
+    <div class="form-group"><label>Package Type</label><input type="text" id="packageType"></div>
+    <div class="form-group"><label>Substrate Vendor</label><input type="text" id="substrateVendor"></div>
+    <div class="form-group"><label>EMC Type</label><input type="text" id="emcType"></div>
+    <div class="form-group"><label>In Date</label><input type="date" id="inDate"></div>
+    <div class="form-group"><label>Out Date</label><input type="date" id="outDate"></div>
+    <div class="form-group"><label>Device No</label><input type="text" id="deviceNo"></div>
+    <div class="form-group"><label>Lot No</label><input type="text" id="lotNo"></div>
+    <div class="form-group"><label>Item</label><input type="text" id="item"></div>
+    <div class="form-group"><label>Detail</label><input type="text" id="detail"></div>
+    <div class="form-group"><label>Source</label><input type="text" id="source" value="Manual"></div>
+  </div>
+
+  <!-- 💾 Save Button Row -->
+  <div class="form-buttons">
+    <button class="cool-save-btn" onclick="saveToFirestore()">💾 Save</button>
+  </div>
+
+  <!-- 📅 FullCalendar Display -->
+  <div id="calendarWrapper" style="display: flex; justify-content: center;">
+    <div id="calendar" style="width: 100%; max-width: 2000px;"></div>
+  </div>
+
+  <!-- 🔍 Row 1: Centered Search -->
+  <div style="display: flex; justify-content: center; margin: 10px 0;">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search..." style="width: 250px;">
+  </div>
+
+  <!-- 🎯 Row 2: Centered Shortcut Buttons -->
+  <div id="sourceFilterBar" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;"></div>
+
+  <!-- 📋 Table -->
+  <div class="table-container">
+    <table class="tcard-list" id="deviceTable">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Package</th>
+          <th>Nickname</th>
+          <th>PKG Size</th>
+          <th>Lead#</th>
+          <th>Type</th>
+          <th>Substrate</th>
+          <th>EMC</th>
+          <th>In</th>
+          <th>Out</th>
+          <th>Device No</th>
+          <th>Lot No</th>
+          <th>Item</th>
+          <th>Detail</th>
+          <th>Source</th>
+          <th>🛠️</th>
+        </tr>
+      </thead>
+      <tbody id="deviceTableBody">
+        <!-- Rows will appear here -->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet4 - JMP Raw</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/sheet4_jmpraw.js" defer></script>
+</head>
+<body>
+  <!-- 🔝 Sheet14-style Top Navigation -->
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 QA</button>
+    <button class="back-button" onclick="window.location.href='sheet15_devicesy.html'">📆 AR</button>
+    <button class="back-button" onclick="window.location.href='sheet13_npilist.html'">🆕 NPI</button>
+    <button class="back-button" onclick="window.location.href='sheet1_masterlist.html'">📄 Reliability</button>
+    <button class="back-button" onclick="window.location.href='sheet11_falist.html'">🛠️ FA</button>
+    <button class="back-button" onclick="window.location.href='sheet8_pcnmasterlist.html'">📰 PCN</button>
+    <button class="back-button" onclick="window.location.href='sheet7_csr.html'">📝 CSR</button>
+    <button class="back-button" onclick="window.location.href='sheet9_devicelist.html'">📋AI</button>
+    <button class="back-button" onclick="window.location.href='sheet4_jmpraw.html'">📈 JMP</button>
+  </div>
+
+  <h1 class="title">📊 JMP Raw Data Entry</h1>
+
+  <div style="max-width: 1600px; margin: 0 auto 10px auto; text-align: right;">
+    <h2 style="margin: 0; font-weight: 600;">📋 NPI</h2>
+  </div>
+
+  <div id="jmpRawTableContainer" style="max-width: 1600px; margin: 0 auto 20px auto; overflow-x: auto;">
+
+    <table border="1" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Package Name</th>
+          <th>Nickname</th>
+          <th>PKG Size</th>
+          <th>Lead Number</th>
+          <th>Package Type</th>
+          <th>Substrate Vendor</th>
+          <th>EMC Type</th>
+          <th>Stage</th>
+          <th>AI No</th>
+          <th>Request Date</th>
+          <th>Bump/Assy</th>
+          <th>Oper In</th>
+          <th>Oper Out</th>
+          <th>FA Result</th>
+          <th>Remark</th>
+          <th>Change to Next</th>
+          <th>Wafer</th>
+          <th>Device</th>
+          <th>Run No</th>
+          <th>Lot No</th>
+          <th>IN Qty</th>
+          <th>OUT Qty</th>
+          <th>Rej Qty</th>
+          <th>Rej Mode</th>
+        </tr>
+      </thead>
+      <tbody id="jmpRawTableBody">
+        <!-- Filled via JS -->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet8 - PCN Master List</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <!-- XLSX Library -->
+  <script src="js/xlsx.full.min.js"></script>
+  <script src="js/sheet8_pcnmasterlist.js" defer></script>
+</head>
+
+<body>
+
+  <!-- 🔵 Top Navigation (like Sheet13) -->
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 QA</button>
+    <button class="back-button" onclick="window.location.href='sheet15_devicesy.html'">📆 AR</button>
+    <button class="back-button" onclick="window.location.href='sheet13_npilist.html'">🆕 NPI</button>
+    <button class="back-button" onclick="window.location.href='sheet1_masterlist.html'">📄 Reliability</button>
+    <button class="back-button" onclick="window.location.href='sheet11_falist.html'">🛠️ FA</button>
+    <button class="back-button" onclick="window.location.href='sheet8_pcnmasterlist.html'">📰 PCN</button>
+    <button class="back-button" onclick="window.location.href='sheet7_csr.html'">📝 CSR</button>
+    <button class="back-button" onclick="window.location.href='sheet9_devicelist.html'">📋AI</button>
+    <button class="back-button" onclick="window.location.href='sheet4_jmpraw.html'">📈 JMP</button>
+  </div>
+
+  <!-- 🔵 Navbar for PCN-specific actions -->
+  <nav class="navbar">
+    <a href="sheet10_pcnregistration.html">➕ New PCN Registration</a>
+    <a href="#" onclick="exportFullPCNMasterList()">📥 Export Full PCN Master List</a>
+  </nav>
+
+  <h1>📄 PCN Master List</h1>
+
+  <div id="tableContainer"></div>
+
+</body>
+</html>

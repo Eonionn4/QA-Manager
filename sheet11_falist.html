@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet11 - FA List</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="js/sheet11_falist.js" defer></script>
+</head>
+<body>
+
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 QA</button>
+    <button class="back-button" onclick="window.location.href='sheet15_devicesy.html'">📆 AR</button>
+    <button class="back-button" onclick="window.location.href='sheet13_npilist.html'">🆕 NPI</button>
+    <button class="back-button" onclick="window.location.href='sheet1_masterlist.html'">📄 Reliability</button>
+    <button class="back-button" onclick="window.location.href='sheet11_falist.html'">🛠️ FA</button>
+    <button class="back-button" onclick="window.location.href='sheet8_pcnmasterlist.html'">📰 PCN</button>
+    <button class="back-button" onclick="window.location.href='sheet7_csr.html'">📝 CSR</button>
+    <button class="back-button" onclick="window.location.href='sheet9_devicelist.html'">📋AI</button>
+    <button class="back-button" onclick="window.location.href='sheet4_jmpraw.html'">📈 JMP</button>
+  </div>
+  
+  <nav class="navbar">
+    <a href="sheet12_famngr.html" class="active">🛠️ Go to FA Manager</a>
+  </nav>
+
+  <h1>📋 FA List</h1>
+
+  <!-- ✅ Search bar -->
+  <div style="max-width: 400px; margin: 10px auto;">
+    <input type="text" id="searchInput" placeholder="🔍 Search by FA Number, Customer, Package..." style="width: 100%; padding: 8px;" />
+  </div>
+
+  <!-- ✅ Table container -->
+  <div id="faTableContainer" style="margin-top: 20px;"></div>
+
+</body>
+</html>

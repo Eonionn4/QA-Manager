@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CSR Management System</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    .cool-import-area {
+      width: 95%;
+      max-width: 1000px;
+      margin: 30px auto 20px;
+      padding: 20px;
+      background: #f0f8ff;
+      border: 2px dashed #007bff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .cool-import-area label {
+      font-weight: bold;
+      color: #007bff;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+    .cool-import-area input[type="file"] {
+      flex: 1;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- ✅ Top Navigation -->
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 QA</button>
+    <button class="back-button" onclick="window.location.href='sheet15_devicesy.html'">📆 AR</button>
+    <button class="back-button" onclick="window.location.href='sheet13_npilist.html'">🆕 NPI</button>
+    <button class="back-button" onclick="window.location.href='sheet1_masterlist.html'">📄 Reliability</button>
+    <button class="back-button" onclick="window.location.href='sheet11_falist.html'">🛠️ FA</button>
+    <button class="back-button" onclick="window.location.href='sheet8_pcnmasterlist.html'">📰 PCN</button>
+    <button class="back-button" onclick="window.location.href='sheet7_csr.html'">📝 CSR</button>
+    <button class="back-button" onclick="window.location.href='sheet9_devicelist.html'">📋AI</button>
+    <button class="back-button" onclick="window.location.href='sheet4_jmpraw.html'">📈 JMP</button>
+  </div>
+
+  <!-- ✅ System Control Bar -->
+  <nav class="navbar">
+    <button id="exportCSRListButton" class="cool-export-btn">📥 Export CSR List</button>
+    <button id="deleteAllButton" class="cool-delete-btn">🗑️ Delete All CSR List</button>
+  </nav>
+
+  <!-- ✅ Title -->
+  <h1 class="page-title" style="margin: 25px 30px 10px;">📝 CSR Management System</h1>
+
+  <!-- ✅ Cooler Import Excel File Area -->
+  <div class="cool-import-area">
+    <label for="excelFileInput">📂 Import CSR Excel File</label>
+    <input type="file" id="excelFileInput" accept=".xlsx, .xls" />
+  </div>
+
+  <!-- ✅ Updated Notice -->
+  <div id="updatedNotice" style="width: 95%; margin: 10px auto 20px; font-weight: bold; color: #007bff; display: none;">
+    ✅ Updated: <span id="updatedDateText"></span>
+  </div>
+
+  <!-- 🔍 Search Area (Input Only) -->
+  <div style="width: 95%; margin: 20px auto 10px; display: flex; gap: 10px; align-items: center;">
+    <input id="searchInput" class="search-input" placeholder="🔍 Search CSR List..." />
+  </div>
+
+  <!-- 📋 CSR Table -->
+  <table id="csrTable">
+    <thead>
+      <tr>
+        <th>SITE</th>
+        <th>SYSTEM#</th>
+        <th>CUSTNAME</th>
+        <th>SPECTYPE</th>
+        <th>SPECTITLE</th>
+        <th>SPEC#</th>
+        <th>SPECREV</th>
+        <th>RECEIVED IN</th>
+        <th>REQ BY</th>
+        <th>STATUS</th>
+        <th>SUBMITTED IN</th>
+        <th>CLOSED IN</th>
+        <th>Revised History</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- 🔍 View Modal -->
+  <div id="viewModal">
+    <div id="modalContent">
+      <button id="closeModalBtn" class="close-btn">✖</button>
+      <h2>CSR Revision History</h2>
+      <div id="historyTableBody"></div>
+    </div>
+  </div>
+
+  <!-- ✅ Script Files -->
+  <script type="module" src="js/sheet7_csr.js"></script>
+
+  <!-- ✅ Real-Time Search (on input only) -->
+  <script>
+    document.getElementById("searchInput").addEventListener("input", function () {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll("#csrTable tbody tr");
+      rows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>

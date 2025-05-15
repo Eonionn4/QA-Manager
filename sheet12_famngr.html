@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet12 - FA Manager</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="js/sheet12_famngr.js" defer></script>
+</head>
+<body>
+
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 Back to QA System</button>
+    <button class="secondary-btn" onclick="window.location.href='sheet11_falist.html'" style="margin-left: 10px;">📋 Go to FA List</button>
+  </div>
+  
+  <h1 class="title">🛠️ FA Management - New FA Entry</h1>
+
+  <form id="faForm" class="form-grid form-aligned" style="max-width: 1400px; margin: auto;">
+    <div class="form-group">
+      <label for="faNumber">FA Number</label>
+      <input type="text" id="faNumber" required />
+    </div>
+    <div class="form-group">
+      <label for="customer">Customer</label>
+      <input type="text" id="customer" />
+    </div>
+    <div class="form-group">
+      <label for="packageName">Package Name</label>
+      <input type="text" id="packageName" />
+    </div>
+    <div class="form-group">
+      <label for="nickname">Nickname</label>
+      <input type="text" id="nickname" />
+    </div>
+    <div class="form-group">
+      <label for="packageType">Package Type</label>
+      <input type="text" id="packageType" />
+    </div>
+    <div class="form-group">
+      <label for="pkgSize">PKG Size</label>
+      <input type="text" id="pkgSize" />
+    </div>
+    <div class="form-group">
+      <label for="leadNumber">Lead Number</label>
+      <input type="text" id="leadNumber" />
+    </div>
+    <div class="form-group">
+      <label for="runNumber">Run Number</label>
+      <input type="text" id="runNumber" />
+    </div>
+    <div class="form-group">
+      <label for="productStage">Product Stage</label>
+      <select id="productStage">
+        <option value="">Select Stage</option>
+        <option value="CZ/ER">CZ/ER</option>
+        <option value="Qual">Qual</option>
+        <option value="LVM">LVM</option>
+        <option value="HVM">HVM</option>
+        <option value="RMA">RMA</option>
+        <option value="Others">Others</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="returnSite">Return Site</label>
+      <input type="text" id="returnSite" />
+    </div>
+    
+    <div class="form-group">
+      <label for="faRequestDate">FA Request Date</label>
+      <input type="date" id="faRequestDate" />
+    </div>
+    
+    <!-- Aligned Save + Revise Buttons -->
+    <div class="form-buttons" style="grid-column: span 4; justify-content: center; margin-top: 20px;">
+      <button type="submit" class="primary-btn" style="height: 44px;">💾 Save FA Entry</button>
+      <button type="button" id="reviseBtn" class="primary-btn" style="height: 44px;">🔁 Revise FA Entry</button>
+      <button type="button" class="secondary-btn" onclick="openDeviceSySearch()">🔍 Search from DeviceSy</button>
+    </div> 
+  </form>
+  
+  <h2 class="sub-title">📋 T-Card Entry</h2>
+
+  <div id="tcardArea" style="margin-bottom: 20px;">
+    <div class="form-grid form-aligned" style="max-width: 1400px; margin: auto;">
+      <div class="form-group">
+        <label for="lotNumber">Lot Number</label>
+        <input type="text" id="lotNumber" />
+      </div>
+      <div class="form-group">
+        <label for="substrateVendor">Substrate Vendor</label>
+        <input type="text" id="substrateVendor" />
+      </div>
+      <div class="form-group">
+        <label for="emcType">EMC Type</label>
+        <input type="text" id="emcType" />
+      </div>
+      <div class="form-group">
+        <label for="sampleSize">Sample Size</label>
+        <input type="number" id="sampleSize" />
+      </div>
+      <div class="form-group">
+        <label for="failMode">Fail Mode (OS, etc.)</label>
+        <input type="text" id="failMode" />
+      </div>
+      <div class="form-group">
+        <label for="failRate">Fail Rate (A/B ~%)</label>
+        <input type="text" id="failRate" />
+      </div>
+    </div>
+  
+    <div class="form-buttons" style="grid-column: span 2; margin-top: 10px;">
+      <button type="button" id="addTCardButton" class="secondary-btn">➕ Add T-Card</button>
+    </div>
+  
+    <div id="tcardList" style="margin-top: 20px;">
+      <!-- Saved T-Cards appear here -->
+    </div>
+  </div>  
+
+  <!-- 🔍 DeviceSy Search Modal -->
+  <div id="deviceSearchModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #444; overflow:auto; z-index:9999; padding:20px;">
+    <button onclick="closeDeviceSySearch()" class="secondary-btn" style="margin-top:10px;">❌ Close</button>
+    <h3>📦 Select Device Info</h3>
+    <input type="text" id="deviceSearchInput" placeholder="Search..." style="width: 100%; padding: 8px;" />
+    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;" border="1">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Package</th>
+          <th>Nickname</th>
+          <th>PKG Size</th>
+          <th>Lead#</th>
+          <th>Package Type</th>
+          <th>Substrate</th>
+          <th>EMC</th>
+          <th>Lot</th>
+          <th>Device</th>
+          <th>Action</th>
+          <th>Source</th>
+          <th>Track</th>
+        </tr>
+      </thead>
+      <tbody id="deviceSearchResults"></tbody>
+    </table>
+  </div>
+
+</body>
+</html>

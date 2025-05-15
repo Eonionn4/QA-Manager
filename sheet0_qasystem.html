@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QA System Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1 style="display: flex; justify-content: space-between; align-items: center;">
+    🏠 QA System Home
+  </h1>  
+
+  <div class="button-container">
+    <button class="nav-button wb-button" onclick="goTo('sheet15_devicesy.html')">📆 My Action Item</button>
+    <button class="nav-button wb-button" onclick="goTo('sheet13_npilist.html')">🆕 NPI Management System</button>
+    <button class="nav-button wb-button" onclick="goTo('sheet1_masterlist.html')">📄 Reliability Management System</button>
+    <button class="nav-button wb-button" onclick="goTo('sheet11_falist.html')">🛠️ FA Management System</button>
+    <button class="nav-button wb-button" onclick="goTo('sheet8_pcnmasterlist.html')">📰 PCN Management System</button>
+    <button class="nav-button wb-button" onclick="goTo('sheet7_csr.html')">📝 CSR Management System</button>
+    <button class="nav-button wb-button" onclick="goTo('sheet9_devicelist.html')">📋 Device List (AI)</button>
+    <button class="nav-button wb-button" onclick="goTo('sheet4_jmpraw.html')">📊 JMP Raw Entry</button>
+  </div>
+
+  <!-- 🔓 Log Out Button Below Device List -->
+  <div style="text-align:center;">
+    <button onclick="logout()" class="logout-btn">🔓 Log out</button>
+  </div>
+
+  <script>
+    function goTo(page) {
+      window.location.href = page;
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      window.location.href = "sheet17_login.html";
+    }
+  </script>
+
+</body>
+</html>

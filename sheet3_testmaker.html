@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sheet3 - Test List Maker</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div class="top-nav">
+    <button class="back-button" onclick="goToSheet0()">🏠 Back to QA System</button>
+  </div>
+  <script>
+    function goToSheet0() {
+      window.location.href = "sheet0_qasystem.html";
+    }
+    </script>
+
+  <!-- ✅ Top Navigation -->
+  <div class="navbar">
+    <a href="sheet1_masterlist.html">Test Master List</a>
+    <a href="sheet2_schedulemanager.html">Schedule Manager</a>
+    <a class="active" href="sheet3_testmaker.html">Test List Maker</a>
+    <a href="sheet6_ftresult.html">FT Result</a>
+  </div>
+
+  <!-- ✅ Page Header -->
+  <div class="page-header">
+    <h2>🧪 Test List Maker</h2>
+  </div>
+
+  <!-- ✅ Form Section -->
+<form id="testMakerForm" class="form-grid form-aligned">
+  <input type="hidden" name="editId" id="editId" />
+  
+  <div class="form-group">
+    <label for="criteria">Test Item/Criteria</label>
+    <input name="criteria" id="criteria" required />
+  </div>
+  <div class="form-group">
+    <label for="tempFrom">Temp From (°C)</label>
+    <input name="tempFrom" id="tempFrom" type="number" />
+  </div>
+  <div class="form-group">
+    <label for="tempTo">Temp To (°C)</label>
+    <input name="tempTo" id="tempTo" type="number" />
+  </div>
+  <div class="form-group">
+    <label for="humidity">Humidity (%RH)</label>
+    <input name="humidity" id="humidity" type="number" />
+  </div>
+  <div class="form-group">
+    <label for="time">Time (Hrs)</label>
+    <input name="time" id="time" type="number" />
+  </div>
+  <div class="form-group">
+    <label for="cycle">Cycle</label>
+    <input name="cycle" id="cycle" />
+  </div>
+  <div class="form-group">
+    <label for="pressure">Pressure (kPa)</label>
+    <input name="pressure" id="pressure" />
+  </div>
+  <div class="form-group">
+    <label for="voltage">Voltage</label>
+    <input name="voltage" id="voltage" />
+  </div>
+  <div class="form-group">
+    <label for="duration">Duration (Days)</label>
+    <input name="duration" id="duration" type="number" />
+  </div>
+
+  <div class="form-buttons">
+    <button type="submit" id="saveBtn">💾 Save Test Item</button>
+    <button type="button" id="reviseBtn" style="display:none; background: #f39c12;">✏️ Revise Test Item</button>
+    <button type="button" id="cancelEditBtn" style="display:none; background: #aaa;">✖ Cancel</button>
+  </div>
+</form>
+
+<!-- ✅ Saved Test Items -->
+<h3 class="saved-tests-title">📋 Saved Test Items</h3>
+<div id="savedTests" class="saved-tests-container"></div>
+
+  <!-- ✅ Script -->
+  <script src="js/sheet3_testmaker.js"></script>
+</body>
+</html>

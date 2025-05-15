@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reliability Schedule Manager</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="top-nav">
+    <button class="back-button" onclick="goToSheet0()">🏠 Back to QA System</button>
+  </div>
+  <script>
+    function goToSheet0() {
+      window.location.href = "sheet0_qasystem.html";
+    }
+  </script>
+
+  <div class="navbar">
+    <a href="sheet1_masterlist.html">Test Master List</a>
+    <a class="active" href="sheet2_schedulemanager.html">Schedule Manager</a>
+    <a href="sheet3_testmaker.html">Test List Maker</a>
+    <a href="sheet6_ftresult.html">FT Result</a>
+  </div>
+
+  <h2 class="title">Reliability Schedule Manager</h2>
+
+  <div class="form-grid">
+    <input placeholder="Reliability Number" id="relNum" />
+    <input placeholder="Customer" id="customer" />
+    <input placeholder="Package Name" id="packageName" />
+    <input placeholder="Nickname" id="nickname" />
+    <input placeholder="Package Type" id="packageType" />
+    <input placeholder="PKG Size" id="pkgSize" />
+    <input placeholder="Lead Number" id="leadNumber" />
+    <input placeholder="Run Number" id="runNumber" />
+    <input placeholder="Purpose" id="purpose" />
+    <input type="date" id="startDate" />
+  </div>
+
+  <h3 class="sub-title">T-Card Split Information</h3>
+  <div class="form-grid">
+    <input placeholder="Lot Number" id="lotNumber" />
+    <input placeholder="Substrate Vendor" id="substrateVendor" />
+    <input placeholder="EMC Type" id="emcType" />
+    <input placeholder="Sample Size" id="sampleSize" />
+    <input placeholder="Reliability Purpose" id="relPurpose" />
+    <button id="addTCard" class="add-btn">➕ Add T-Card</button>
+  </div>
+
+  <!-- Updated Table for T-Cards -->
+  <h3 class="sub-title">Saved T-Cards</h3>
+  <table class="tcard-list">
+    <thead>
+      <tr>
+        <th>Lot</th>
+        <th>Vendor</th>
+        <th>EMC</th>
+        <th>Size</th>
+        <th>Purpose</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tcardList">
+      <!-- Dynamically populated rows go here -->
+    </tbody>
+  </table>
+
+  <div class="btn-group">
+    <button id="saveBtn" class="btn save">💾 Save</button>
+    <button id="reviseBtn" class="btn revise">✏️ Revise</button>
+    <button onclick="openDeviceSySearch()" class="cool-search-btn">🔍 Search from DeviceSy</button>
+
+  </div>
+
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <!-- Main Script -->
+  <script src="js/sheet2_schedulemanager.js"></script>
+
+  <h3 class="sub-title">Schedule Manager - Test and Schedule Areas</h3>
+
+  <div class="left-right-container">
+    <div class="left-panel">
+      <h4>Test Items</h4>
+      <input id="searchTestItems" class="search-input" placeholder="🔍 Search Test Items..." />
+      <div id="testList" class="display-box scroll-list"></div>
+      
+      <h4>Schedule Areas</h4>
+      <input id="searchScheduleAreas" class="search-input" placeholder="🔍 Search Schedule Areas..." />
+      <div id="scheduleAreas" class="display-box scroll-list"></div>      
+    </div>
+  
+    <div class="right-panel">
+      <h4 id="areaTitle">Select a Schedule Area</h4>
+      <div id="rightArea" class="display-box"></div>
+    </div>
+  </div>
+  <!-- 🔍 DeviceSy Search Modal -->
+  <div id="deviceSearchModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #444; overflow:auto; z-index:9999; padding:20px;">
+    <button onclick="closeDeviceSySearch()" class="secondary-btn" style="margin-top:10px;">❌ Close</button>
+    <h3>📦 Select Device Info</h3>
+    <input type="text" id="deviceSearchInput" placeholder="Search..." style="width: 100%; padding: 8px;" />
+    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;" border="1">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Package</th>
+          <th>Nickname</th>
+          <th>PKG Size</th>
+          <th>Lead#</th>
+          <th>Package Type</th>
+          <th>Substrate</th>
+          <th>EMC</th>
+          <th>Lot</th>
+          <th>Device</th>
+          <th>Action</th>
+          <th>Source</th>
+          <th>Track</th>
+        </tr>
+      </thead>
+      <tbody id="deviceSearchResults"></tbody>
+    </table>
+  </div>
+</body>
+</html>
