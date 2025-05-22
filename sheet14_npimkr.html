@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sheet14 - NPI Maker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="js/sheet14_npimkr.js" defer></script>
+</head>
+<body>
+  <div class="top-nav">
+    <button class="back-button" onclick="window.location.href='sheet0_qasystem.html'">🏠 Back to QA System</button>
+    <button class="cool-back-btn" onclick="window.location.href='sheet13_npilist.html'" style="margin-left: auto;">📋 Back to NPI List</button>
+  </div>
+
+  <h1 class="title">🛠️ NPI Maker</h1>
+
+  <!-- 🔹 Basic Information -->
+  <h2 class="sub-title">🔹 Basic Information</h2>
+  <div class="form-grid form-aligned">
+    <div class="form-group"><label>Customer</label><input type="text" id="customer" /></div>
+    <div class="form-group"><label>Package Name</label><input type="text" id="packageName" /></div>
+    <div class="form-group"><label>Nickname</label><input type="text" id="nickname" /></div>
+    <div class="form-group"><label>PKG Size</label><input type="text" id="pkgSize" /></div>
+    <div class="form-group"><label>Lead Number</label><input type="text" id="leadNumber" /></div>
+    <div class="form-group"><label>Package Type</label><input type="text" id="packageType" /></div>
+    <div class="form-group"><label>Substrate Vendor</label><input type="text" id="substrateVendor" /></div>
+    <div class="form-group"><label>EMC Type</label><input type="text" id="emcType" /></div>
+  </div>
+
+  <div class="form-buttons">
+    <button id="saveNPI" class="primary-btn">💾 Save NPI</button>
+    <button id="reviseNPI" class="primary-btn">🔁 Revise NPI</button>
+    <button onclick="openDeviceSySearch()" class="secondary-btn">🔍 Search from DeviceSy</button>
+  </div>
+  
+  <!-- 🔸 T-Card History -->
+  <h2 class="sub-title">🔸 T-Card History</h2>
+  <div class="form-grid form-aligned">
+    <div class="form-group"><label>Stage</label><input type="text" id="stage" /></div>
+
+    <div class="form-group" style="grid-column: span 2;">
+      <label>AI No</label>
+      <div style="display: flex; gap: 10px;">
+        <input type="text" id="aiNo" style="flex: 1;" />
+        <button onclick="openAiNoSearch()" class="secondary-btn">🔍</button>
+      </div>
+    </div>
+
+    <div class="form-group"><label>Request Date</label><input type="date" id="requestDate" /></div>
+    <div class="form-group"><label>Bump/Assy</label><input type="text" id="bumpAssy" /></div>
+    <div class="form-group"><label>Oper In Date</label><input type="date" id="operInDate" /></div>
+    <div class="form-group"><label>Oper Out Date</label><input type="date" id="operOutDate" /></div>
+    <div class="form-group" style="grid-column: span 2;">
+      <label>FA Result</label>
+      <div style="display: flex; gap: 10px;">
+        <input type="text" id="faResult" style="flex: 1;" />
+        <button onclick="openFaSearch()" class="secondary-btn">🔍</button>
+      </div>
+    </div>    
+    <div class="form-group"><label>Remark</label><input type="text" id="remark" /></div>
+    <div class="form-group" style="grid-column: span 2;"><label>Any Change to next step?</label><input type="text" id="changeToNext" /></div>
+  </div>
+
+  <div class="form-buttons">
+    <button type="button" id="addHistoryBtn" class="secondary-btn">➕ Add History</button>
+    <button type="button" id="reviseHistoryBtn" class="secondary-btn" style="display:none;">🔁 Revise History</button>
+  </div>
+
+  <!-- 📋 History Entry Display Area -->
+  <div id="historyTableBody" style="max-width: 1400px; margin: 30px auto;"></div>
+
+  <!-- 🔍 DeviceSy Search Modal -->
+  <div id="deviceSearchModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #444; overflow:auto; z-index:9999; padding:20px;">
+    <button onclick="closeDeviceSySearch()" class="secondary-btn" style="margin-top:10px;">❌ Close</button>
+    <h3>📦 Select Device Info</h3>
+    <input type="text" id="deviceSearchInput" placeholder="🔍 Search..." style="width: 100%; padding: 8px;" />
+    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;" border="1">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Package</th>
+          <th>Nickname</th>
+          <th>PKG Size</th>
+          <th>Lead#</th>
+          <th>Package Type</th>
+          <th>Substrate</th>
+          <th>EMC</th>
+          <th>Lot</th>
+          <th>Device</th>
+          <th>Source</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="deviceSearchResults"></tbody>
+    </table>
+  </div>
+
+  <!-- 🔍 AI No Search Modal -->
+  <div id="aiSearchModal" style="display:none; position:fixed; top:15%; left:15%; width:70%; height:70%; background:white; border:2px solid #333; padding:20px; z-index:9999; overflow:auto;">
+    <h3>🔍 Select AI No from Device List</h3>
+    <input type="text" id="aiSearchInput" placeholder="Search by AI No, Device, Package..." style="width:100%; padding:8px;" />
+    <table border="1" style="width:100%; margin-top:10px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>AI No</th>
+          <th>Device</th>
+          <th>Customer</th>
+          <th>Package</th>
+          <th>Action</th>          
+        </tr>
+      </thead>
+      <tbody id="aiSearchResults"></tbody>
+    </table>
+    <button onclick="closeAiNoSearch()" class="secondary-btn" style="margin-top:10px;">❌ Close</button>
+  </div>
+</body>
+</html>
+
+<!-- 🔍 FA Result Search Modal -->
+<div id="faSearchModal" style="display:none; position:fixed; top:15%; left:15%; width:70%; height:70%; background:white; border:2px solid #333; padding:20px; z-index:9999; overflow:auto;">
+  <h3>🔍 Select FA Number</h3>
+  <input type="text" id="faSearchInput" placeholder="Search FA No, Lot, Device..." style="width:100%; padding:8px;" />
+  <table border="1" style="width:100%; margin-top:10px; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>FA No</th>
+        <th>Customer</th>
+        <th>Package</th>
+        <th>Device</th>
+        <th>Lot</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="faSearchResults"></tbody>
+  </table>
+  <button onclick="closeFaSearch()" class="secondary-btn" style="margin-top:10px;">❌ Close</button>
+</div>
